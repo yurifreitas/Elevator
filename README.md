@@ -17,6 +17,5 @@
 
 #####Para rodar o projeto
 
-##Iniciar o banco
 >python app.py
 

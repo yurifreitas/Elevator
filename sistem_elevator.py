@@ -108,7 +108,7 @@ class Building(object):
             self.elevator.direction = 1
 
     def direction_new_strategy(self):
-        """Estratégia ruim o elevador segue para o andar que o primeiro passageiro
+        """Estratégia ruim o elevador segue para o andar que o ultimo passageiro
         informar e assim sucetivamente, caso não tenha passageiros fica subindo e descendo
         """
         if len(self.elevator.passager_list) is 0:
