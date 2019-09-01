@@ -12,13 +12,10 @@ class Elevator(object):
 
     def move(self):
         """função que move o elevador um andar acima ou abaixo"""
-
         self.current_floor += self.direction
 
     def exit_passagers(self):
-        """
-        Função que remove o passageiro do elevador caso ele estaja no seus respectivo andar
-        """
+        """Função que remove o passageiro do elevador caso ele estaja no seus respectivo andar"""
         for passager in list(self.passager_list):
             if passager.destination_floor == self.current_floor:
                 self.remove_passager(passager)
@@ -55,13 +52,16 @@ class Building(object):
     inteiro que define o numero da estratégia a ser usado.
     0 = direction_default_strategy()
     1 = direction_bad_strategy()
+    2 = direction_new_strategy()
+    3 = direction_new_order_strategy()
     """
     passager_list = list()
     elevator = None
     strategy = 0
 
     def __init__(self, num_of_floors, passagers_num):
-        """Cria um edificio e adiciona uma lista de passageiros usando a
+        """
+        Cria um edificio e adiciona uma lista de passageiros usando a
         função sort para embaralhar os pedidos
         """
         self.num_of_floors = num_of_floors
@@ -72,8 +72,9 @@ class Building(object):
         self.passager_list = sorted(self.passager_list, key=lambda x: x.start_floor)
         self.elevator = Elevator()
 
-    """LISTA DE ESTRATÉGIAS A SEREM USADAS"""
 
+
+    #LISTA DE ESTRATÉGIAS A SEREM USADA
     def direction_default_strategy(self):
         """Estratégia padrão o elevador vai pra cima e para baixo"""
         if self.elevator.current_floor >= self.num_of_floors - 1:
@@ -114,7 +115,7 @@ class Building(object):
         if len(self.elevator.passager_list) is 0:
             self.direction_default_strategy()
             return
-        firstval = self.elevator.passager_list[randint(0,len(self.elevator.passager_list) -1)].destination_floor
+        firstval = self.elevator.passager_list[randint(0, len(self.elevator.passager_list) - 1)].destination_floor
         if self.elevator.current_floor > firstval:
             self.elevator.direction = -1
         else:

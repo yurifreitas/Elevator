@@ -2,11 +2,7 @@ from quart import Quart, request, url_for, jsonify, render_template
 import os
 import json
 
-import logging
-
 app = Quart(__name__)
-
-
 
 
 @app.route('/')
