@@ -1,8 +1,9 @@
 
-# PROJETO PYTHON 3.7 Elevador
-O projeto tem como intuito testar alguns algoritimos para transportar pessoas de maneira eficiente e comparar.
+# PYTHON 3.7 Elevador
+Implementação de algoritimos para transportar pessoas de maneira eficiente e compara-los.
 
-O setup está configurado para 
+O setup está configurado para para simular um edificio de 
+10 andares e um elevador com capacidade maxima de 8 pessoas.
 
 #### Para rodar o projeto use os seguintes comandos
 
