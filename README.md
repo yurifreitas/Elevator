@@ -1,5 +1,8 @@
 
 ####PROJETO TESTE TECMASTER PYTHON 3.7
+O projeto tem como intuito testar alguns algoritimos para transportar pessoas de maneira eficiente e comparar.
+
+O setup está configurado para 
 
 ####Para rodar o projeto use os seguintes comandos
 
@@ -18,4 +21,6 @@
 #####Para rodar o projeto
 
 >python app.py
+
+
 

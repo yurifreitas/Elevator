@@ -19,5 +19,15 @@ async def index():
     return await render_template('list.html', strategs=strategs)
 
 
+@app.route('/clear/')
+async def clear():
+    try:
+        os.remove("elevator.json")
+    except:
+        return 404
+
+    return index()
+
+
 if __name__ == '__main__':
     app.run(debug='True')

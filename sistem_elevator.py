@@ -1,6 +1,7 @@
 from random import randint
 from copy import deepcopy
 import json
+import os
 
 
 class Elevator(object):
@@ -55,18 +56,17 @@ class Building(object):
     0 = direction_default_strategy()
     1 = direction_bad_strategy()
     """
-
-    num_of_floors = 10
     passager_list = list()
     elevator = None
     strategy = 0
 
-    def __init__(self):
+    def __init__(self, num_of_floors, passagers_num):
         """Cria um edificio e adiciona uma lista de passageiros usando a
         função sort para embaralhar os pedidos
         """
-        num_of_floors = self.num_of_floors
-        passagers_num = 8
+        self.num_of_floors = num_of_floors
+        self.passagers_num = passagers_num
+
         for i in range(passagers_num):
             self.passager_list.append(Passager(i, num_of_floors))
         self.passager_list = sorted(self.passager_list, key=lambda x: x.start_floor)
@@ -107,14 +107,14 @@ class Building(object):
         else:
             self.elevator.direction = 1
 
-    def direction_new_strategy(self):
+    def direction_new_order_strategy(self):
         """Estratégia ruim o elevador segue para o andar que o ultimo passageiro
         informar e assim sucetivamente, caso não tenha passageiros fica subindo e descendo
         """
         if len(self.elevator.passager_list) is 0:
             self.direction_default_strategy()
             return
-        firstval = self.elevator.passager_list[-1].destination_floor
+        firstval = self.elevator.passager_list[randint(0, len(self.elevator.passager_list))].destination_floor
         if self.elevator.current_floor > firstval:
             self.elevator.direction = -1
         else:
@@ -137,8 +137,10 @@ class Building(object):
             self.direction_default_strategy()
         elif self.strategy == 1:
             self.direction_bad_strategy()
-        else:
+        elif self.strategy == 2:
             self.direction_new_strategy()
+        elif self.strategy == 3:
+            self.direction_new_order_strategy()
         self.elevator.move()
         self.elevator.exit_passagers()
 
@@ -146,7 +148,6 @@ class Building(object):
         """Retorna a quantidade de paradas que o elevador fez de acordo com a estratégia.
         """
         total_number = 0
-        times_run = 5
 
         while self.awaiting_passagers():
             self.run()
@@ -163,9 +164,10 @@ class Building(object):
 
 def start():
     """Cria o objetos Build e gera uma copia identica dos objetos"""
-    building_default = Building()
+    building_default = Building(10, 8)
     building_bad = deepcopy(building_default)
     building_new = deepcopy(building_default)
+    building_new_order = deepcopy(building_default)
 
     default = building_default.output()
     default_str = {"name": "Padrao", "steps": default}
@@ -178,10 +180,27 @@ def start():
     new = building_new.output()
     new_str = {"name": "Nova", "steps": new}
 
-    my_details = default_str, bad_str, new_str
+    building_new.strategy = 3
+    new_order = building_new_order.output()
+    new_order_str = {"name": "NovaOrdem", "steps": new_order}
 
-    with open('elevator.json', 'w') as json_file:
-        json.dump(my_details, json_file)
+    fname = 'elevator.json'
+
+    if not os.path.isfile(fname):
+        entry = [default_str, bad_str, new_str, new_order_str]
+        with open(fname, mode='w') as f:
+            f.write(json.dumps(entry))
+    else:
+
+        with open(fname) as feedsjson:
+            feeds = json.load(feedsjson)
+
+        feeds.append(default_str)
+        feeds.append(bad_str)
+        feeds.append(new_str)
+        feeds.append(new_order_str)
+        with open(fname, mode='w') as f:
+            f.write(json.dumps(feeds))
 
 
 if __name__ == "__main__":
