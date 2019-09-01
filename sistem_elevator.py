@@ -114,7 +114,7 @@ class Building(object):
         if len(self.elevator.passager_list) is 0:
             self.direction_default_strategy()
             return
-        firstval = self.elevator.passager_list[randint(0, len(self.elevator.passager_list))].destination_floor
+        firstval = self.elevator.passager_list[randint(0,len(self.elevator.passager_list) -1)].destination_floor
         if self.elevator.current_floor > firstval:
             self.elevator.direction = -1
         else:
@@ -180,7 +180,7 @@ def start():
     new = building_new.output()
     new_str = {"name": "Nova", "steps": new}
 
-    building_new.strategy = 3
+    building_new_order.strategy = 3
     new_order = building_new_order.output()
     new_order_str = {"name": "NovaOrdem", "steps": new_order}
 
